@@ -4,9 +4,7 @@ Uses [Alpine Linux](https://hub.docker.com/_/alpine/), [DNSmasq](http://www.thek
 * webproc:  8080/tcp
 * dns: 53/udp
 
-DNSmasq documentation:
-* http://www.thekelleys.org.uk/dnsmasq/doc.html
-* http://oss.segetech.com/intra/srv/dnsmasq.conf
+## Instructions
 
 To run as a Docker Service from the managers rather then the nodes:
 ``` shell
@@ -19,3 +17,13 @@ sudo docker service create \
   --replicas=2 \
   shepner/dnsmasq:latest
 ```
+
+## DNSmasq documentation
+
+* http://www.thekelleys.org.uk/dnsmasq/doc.html
+* http://oss.segetech.com/intra/srv/dnsmasq.conf
+
+## Notes
+
+this might be a good alternative? https://hub.docker.com/r/jpillora/dnsmasq
+
