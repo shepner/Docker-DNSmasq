@@ -1,8 +1,8 @@
 # Program to execute (with optional Arguments). Note: the process
 # must remain in the foreground (i.e. do NOT fork/run as daemon).
 #ProgramArgs = []
-#ProgramArgs = ["dnsmasq","--no-daemon"]
-ProgramArgs = ["dnsmasq","--no-daemon","--conf-dir=/config,*.conf"]
+ProgramArgs = ["dnsmasq","--no-daemon"]
+#ProgramArgs = ["dnsmasq","--no-daemon","--conf-dir=/config,*.conf"]
 
 # Interface to serve web UI. Warning: defaults to ALL interfaces.
 Host = "0.0.0.0"
@@ -33,7 +33,8 @@ OnExit = "ignore"
 # Configuration files to be editable by the web UI.
 # For example, dnsmasq would include "/etc/dnsmasq.conf"
 #ConfigurationFiles = []
-ConfigurationFiles = ["/config/dnsmasq.conf","/config/resolv.conf"]
+#ConfigurationFiles = ["/config/dnsmasq.conf","/config/resolv.conf"]
+ConfigurationFiles = ["/config/resolv.conf"]
 
 # After the restart signal (SIGINT) has been sent, webproc will wait for RestartTimeout before
 # forcibly restarting the process (SIGKILL).
