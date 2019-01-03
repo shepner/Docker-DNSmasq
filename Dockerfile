@@ -19,7 +19,7 @@ RUN apk update \
 
 # Configure webproc
 RUN mkdir -p /etc
-RUN webproc.conf /etc/webproc.conf
+COPY webproc.conf /etc/webproc.conf
 
 # Configure dnsmasq
 #RUN mkdir -p /etc/default/
