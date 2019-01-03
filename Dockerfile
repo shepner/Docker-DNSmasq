@@ -19,7 +19,7 @@ RUN apk update \
 
 # Configure webproc
 RUN mkdir -p /etc
-COPY webproc.conf /etc/webproc.conf
+COPY program.toml /etc/program.toml
 
 # Configure dnsmasq
 #RUN mkdir -p /etc/default/
@@ -30,5 +30,5 @@ COPY dnsmasq.conf /etc/dnsmasq.conf
 
 # Run
 #CMD ["webproc","--config","/etc/dnsmasq.conf","--","dnsmasq","--no-daemon"]
-CMD ["webproc","--config", "/etc/webproc.conf"]
+CMD ["webproc","/etc/program.toml"]
 
