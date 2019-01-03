@@ -33,7 +33,7 @@ OnExit = "ignore"
 # Configuration files to be editable by the web UI.
 # For example, dnsmasq would include "/etc/dnsmasq.conf"
 #ConfigurationFiles = []
-ConfigurationFiles = ["/config/dnsmasq.conf"]
+ConfigurationFiles = ["/config/dnsmasq.conf","/config/resolv.conf"]
 
 # After the restart signal (SIGINT) has been sent, webproc will wait for RestartTimeout before
 # forcibly restarting the process (SIGKILL).
