@@ -1,8 +1,8 @@
 # Program to execute (with optional Arguments). Note: the process
 # must remain in the foreground (i.e. do NOT fork/run as daemon).
 #ProgramArgs = []
-#ProgramArgs = ["dnsmasq","--no-daemon","--conf-dir=/config,*.conf"]
-ProgramArgs = ["dnsmasq","--no-daemon"]
+#ProgramArgs = ["dnsmasq","--no-daemon"]
+ProgramArgs = ["dnsmasq","--no-daemon","--conf-dir=/config,*.conf"]
 
 # Interface to serve web UI. Warning: defaults to ALL interfaces.
 Host = "0.0.0.0"
