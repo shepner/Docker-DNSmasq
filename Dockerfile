@@ -24,9 +24,9 @@ COPY program.toml /etc/program.toml
 # Configure dnsmasq
 #RUN mkdir -p /etc/default/
 #RUN echo -e "ENABLED=1\nIGNORE_RESOLVCONF=yes" > /etc/default/dnsmasq
-COPY resolv.conf /etc/resolv.conf
-COPY dnsmasq.conf /etc/dnsmasq.conf
-#VOLUME ["/config"]  # location of config files
+#COPY resolv.conf /etc/resolv.conf
+#COPY dnsmasq.conf /etc/dnsmasq.conf
+VOLUME ["/config"]  # location of config files
 
 # Run
 #CMD ["webproc","--config","/etc/dnsmasq.conf","--","dnsmasq","--no-daemon"]
