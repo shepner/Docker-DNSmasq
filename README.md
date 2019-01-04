@@ -9,6 +9,7 @@ Uses [Alpine Linux](https://hub.docker.com/_/alpine/), [DNSmasq](http://www.thek
 To run as a Docker Service from the managers rather then the nodes:
 ``` shell
 mkdir -p /mnt/nas/docker/dnsmasq
+mkdir -p /mnt/nas/docker/dnsmasq/hosts.d
 
 wget -O /mnt/nas/docker/dnsmasq/dnsmasq.conf https://raw.githubusercontent.com/shepner/Docker-DNSmasq/master/dnsmasq.conf
 wget -O /mnt/nas/docker/dnsmasq/resolv.conf https://raw.githubusercontent.com/shepner/Docker-DNSmasq/master/resolv.conf
