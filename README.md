@@ -8,17 +8,19 @@ Uses [Alpine Linux](https://hub.docker.com/_/alpine/), [DNSmasq](http://www.thek
 
 To run as a Docker Service from the managers rather then the nodes:
 ``` shell
-mkdir -p /mnt/nas/docker/dnsmasq
+mkdir -p /mnt/nas/docker/dnsmasq/config
 
-wget -O /mnt/nas/docker/dnsmasq/dnsmasq.conf https://raw.githubusercontent.com/shepner/Docker-DNSmasq/master/dnsmasq.conf
+wget -O /mnt/nas/docker/dnsmasq/program.toml https://raw.githubusercontent.com/shepner/Docker-DNSmasq/master/program.toml
 wget -O /mnt/nas/docker/dnsmasq/resolv.conf https://raw.githubusercontent.com/shepner/Docker-DNSmasq/master/resolv.conf
+wget -O /mnt/nas/docker/dnsmasq/config/dnsmasq.conf https://raw.githubusercontent.com/shepner/Docker-DNSmasq/master/dnsmasq.conf
+
 
 sudo docker service create \
   --name DNSmasq \
   --publish published=53,target=53,protocol=udp,mode=ingress \
   --publish published=53,target=53,protocol=tcp,mode=ingress \
   --publish published=8080,target=8080,protocol=tcp,mode=ingress \
-  --mount type=bind,src=/mnt/nas/docker/dnsmasq,dst=/config \
+  --mount type=bind,src=/mnt/nas/docker/dnsmasq,dst=/mnt \
   --constraint node.role==manager \
   --replicas=2 \
   shepner/dnsmasq:latest
