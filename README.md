@@ -31,5 +31,9 @@ sudo docker service create \
 
 ## Notes
 
-this might be a good alternative? https://hub.docker.com/r/jpillora/dnsmasq
-
+Running DNSmasq as a DHCP server from a container is going to take some work
+* this talks about using pipework to support DHCP
+  * https://hub.docker.com/r/kmanna/dnsmasq/
+  * https://github.com/jpetazzo/pipework
+* https://stackoverflow.com/questions/38816077/run-dnsmasq-as-dhcp-server-from-inside-a-docker-container
+* https://serverfault.com/questions/825497/running-dnsmasq-in-docker-container-on-debian-check-dhcp-ignores-dnsmasq
