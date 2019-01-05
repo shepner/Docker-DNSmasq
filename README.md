@@ -14,7 +14,6 @@ wget -O /mnt/nas/docker/dnsmasq/program.toml https://raw.githubusercontent.com/s
 wget -O /mnt/nas/docker/dnsmasq/resolv.conf https://raw.githubusercontent.com/shepner/Docker-DNSmasq/master/resolv.conf
 wget -O /mnt/nas/docker/dnsmasq/config/dnsmasq.conf https://raw.githubusercontent.com/shepner/Docker-DNSmasq/master/dnsmasq.conf
 
-
 sudo docker service create \
   --name DNSmasq \
   --publish published=53,target=53,protocol=udp,mode=ingress \
@@ -40,17 +39,17 @@ Running DNSmasq as a DHCP server from a container is going to take some work
 * https://stackoverflow.com/questions/38816077/run-dnsmasq-as-dhcp-server-from-inside-a-docker-container
 * https://serverfault.com/questions/825497/running-dnsmasq-in-docker-container-on-debian-check-dhcp-ignores-dnsmasq
 
-
+This seems likely to be the solution (if I can disable the local DHCP server on the host):
 ``` shell
 sudo docker service create \
   --name DNSmasq \
-  --publish published=53,target=53,protocol=udp,mode=ingress \
-  --publish published=53,target=53,protocol=tcp,mode=ingress \
-  --publish published=67,target=67,protocol=tdp,mode=ingress \
-  --publish published=8080,target=8080,protocol=tcp,mode=ingress \
   --mount type=bind,src=/mnt/nas/docker/dnsmasq,dst=/mnt \
   --network host \
+  --constraint node.role!=manager \
   --replicas=1 \
   shepner/dnsmasq:latest
 ```
 
+``` shell
+docker run --name dnsmasq -t -v /mnt/nas/docker/dnsmasq:/mnt --net host shepner/dnsmasq:latest
+```
