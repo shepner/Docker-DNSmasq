@@ -33,7 +33,7 @@ OnExit = "ignore"
 # For example, dnsmasq would include "/etc/dnsmasq.conf"
 # NOTE:  It wont let you edit "program.toml" this way
 #ConfigurationFiles = []
-ConfigurationFiles = ["/mnt/config/dnsmasq.conf","/mnt/resolv.conf"]
+ConfigurationFiles = ["/mnt/hosts","/mnt/config/dnsmasq.conf","/mnt/dnsmasq.leases","/mnt/resolv.conf"]
 
 # After the restart signal (SIGINT) has been sent, webproc will wait for RestartTimeout before
 # forcibly restarting the process (SIGKILL).
