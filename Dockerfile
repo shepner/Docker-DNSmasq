@@ -27,5 +27,5 @@ EXPOSE 53/tcp
 EXPOSE 8080/tcp
 
 # Run
-ENTRYPOINT ["webproc",$WEBPROC_CONF]
+ENTRYPOINT ["webproc","$WEBPROC_CONF"]
 
