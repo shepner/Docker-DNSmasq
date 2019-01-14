@@ -8,6 +8,7 @@ LABEL \
 # Webproc release settings
 ENV WEBPROC_VERSION=0.2.2
 ENV WEBPROC_URL=https://github.com/jpillora/webproc/releases/download/$WEBPROC_VERSION/webproc_linux_amd64.gz
+ENV WEBPROC_CONF=/mnt/program.toml
 
 # Fetch dnsmasq and webproc binary
 RUN apk update \
@@ -17,18 +18,14 @@ RUN apk update \
       && chmod +x /usr/local/bin/webproc \
       && apk del .build-deps
 
-# Configure webproc
-#RUN mkdir -p /etc
-#COPY program.toml /etc/program.toml
-
 # Configure dnsmasq
-#RUN mkdir -p /etc/default/
-#RUN echo -e "ENABLED=1\nIGNORE_RESOLVCONF=yes" > /etc/default/dnsmasq
-#COPY resolv.conf /etc/resolv.conf
-#COPY dnsmasq.conf /etc/dnsmasq.conf
 VOLUME ["/mnt"]  # location of external files
 
+# Document what ports are available
+EXPOSE 53/udp    # DNS
+EXPOSE 53/tcp    # DNS
+EXPOSE 8080/tcp  # management
+
 # Run
-#CMD ["webproc","--config","/etc/dnsmasq.conf","--","dnsmasq","--no-daemon"]
-CMD ["webproc","/mnt/program.toml"]
+ENTRYPOINT ["webproc",$WEBPROC_CONF]
 
