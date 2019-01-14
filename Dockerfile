@@ -1,7 +1,7 @@
 FROM alpine:latest
 
 LABEL \
-  org.asyla.release-date="2019-01-2" \
+  org.asyla.release-date="2019-01-13" \
   org.asyla.maintainer="shepner@asyla.org" \
   org.asyla.description="DNSmasq:  DNS Server"
 
