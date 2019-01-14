@@ -14,10 +14,11 @@ NOTE:  In all cases, you will have to do a great deal of configuration here to h
 
 ``` shell
 mkdir -p /mnt/nas/docker/dnsmasq/config
+mkdir -p /mnt/nas/docker/dnsmasq/webproc
 
-wget -O /mnt/nas/docker/dnsmasq/program.toml https://raw.githubusercontent.com/shepner/Docker-DNSmasq/master/program.toml
-wget -O /mnt/nas/docker/dnsmasq/resolv.conf https://raw.githubusercontent.com/shepner/Docker-DNSmasq/master/resolv.conf
+wget -O /mnt/nas/docker/dnsmasq/webproc/program.toml https://raw.githubusercontent.com/shepner/Docker-DNSmasq/master/program.toml
 wget -O /mnt/nas/docker/dnsmasq/config/dnsmasq.conf https://raw.githubusercontent.com/shepner/Docker-DNSmasq/master/dnsmasq.conf
+wget -O /mnt/nas/docker/dnsmasq/resolv.conf https://raw.githubusercontent.com/shepner/Docker-DNSmasq/master/resolv.conf
 
 sudo docker service create \
   --name DNSmasq \
@@ -34,16 +35,14 @@ NOTE: You will only want 1 instance with this to prevent dualing DHCP servers
 
 ``` shell
 mkdir -p /mnt/nas/docker/dnsmasq/config
-mkdir -p /mnt/nas/docker/dnsmasq/webproc_dns
+mkdir -p /mnt/nas/docker/dnsmasq/webproc
 
-wget -O /mnt/nas/docker/dnsmasq/webproc_dns/program.toml https://raw.githubusercontent.com/shepner/Docker-DNSmasq/master/program.toml
-wget -O /mnt/nas/docker/dnsmasq/config/dnsmasq_dns.conf https://raw.githubusercontent.com/shepner/Docker-DNSmasq/master/dnsmasq.conf
+wget -O /mnt/nas/docker/dnsmasq/program.toml https://raw.githubusercontent.com/shepner/Docker-DNSmasq/master/program.toml
 wget -O /mnt/nas/docker/dnsmasq/config/dnsmasq.conf https://raw.githubusercontent.com/shepner/Docker-DNSmasq/master/dnsmasq.conf
 wget -O /mnt/nas/docker/dnsmasq/resolv.conf https://raw.githubusercontent.com/shepner/Docker-DNSmasq/master/resolv.conf
 
 sudo docker service create \
   --name DNSmasq-dns \
-  --env WEBPROC_CONF=/mnt/webproc_dns/program.toml \
   --publish published=53,target=53,protocol=udp,mode=ingress \
   --publish published=53,target=53,protocol=tcp,mode=ingress \
   --publish published=8080,target=8080,protocol=tcp,mode=ingress \
