@@ -54,6 +54,8 @@ sudo docker service create \
 
 ### run just as a DHCP server in a docker swarm
 
+Might need '--privileged' to resolve the "⁣⁣dnsmasq-dhcp: ARP-cache injection failed: Operation not permitted" error
+
 ``` shell
 mkdir -p /mnt/nas/docker/dnsmasq/config
 mkdir -p /mnt/nas/docker/dnsmasq/webproc_dhcp
