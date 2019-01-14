@@ -22,9 +22,9 @@ RUN apk update \
 VOLUME ["/mnt"]  # location of external files
 
 # Document what ports are available
-EXPOSE 53/udp    # DNS
-EXPOSE 53/tcp    # DNS
-EXPOSE 8080/tcp  # management
+EXPOSE 53/udp
+EXPOSE 53/tcp
+EXPOSE 8080/tcp
 
 # Run
 ENTRYPOINT ["webproc",$WEBPROC_CONF]
