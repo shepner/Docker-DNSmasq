@@ -27,5 +27,5 @@ EXPOSE 53/tcp
 EXPOSE 8080/tcp
 
 # Run
-ENTRYPOINT ["webproc","/mnt/webproc_dhcp/program.toml"]
+ENTRYPOINT ["webproc","/mnt/program.toml"]
 
