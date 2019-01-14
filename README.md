@@ -4,10 +4,14 @@ Uses [Alpine Linux](https://hub.docker.com/_/alpine/), [DNSmasq](http://www.thek
 
 ## Instructions
 
-Before you do anything, you must disable any DNS server running on the local host or this will fail.  Ubuntu Server 18.04, for some dumb reason, has one (I think DNSmasq) running by default which is listening on all interfaces.
+This setup is a bit more difficult then others mainly to provide more flexability.  It can be make considerably simpler if you dont mind reducing your options.
 
+NOTE: Before you do anything, you must disable any DNS server running on the local host or this will fail.  Ubuntu Server 18.04, for some dumb reason, has one (I think DNSmasq) running by default which is listening on all interfaces.
 
-To run as a combined DNS/DHCP server in a docker swarm:
+NOTE:  In all cases, you will have to do a great deal of configuration here to have anything more then a basic DNS resolver
+
+### run as a combined DNS/DHCP server in a docker swarm
+
 ``` shell
 mkdir -p /mnt/nas/docker/dnsmasq/config
 
@@ -25,22 +29,21 @@ sudo docker service create \
 ```
 NOTE: You will only want 1 instance with this to prevent dualing DHCP servers
 
----
-## work in progress
----
 
-need to find a way to split the DNS and DHCP while utilizing a single config directory.  Biggest problem seems to be with program.toml as it cant be renamed
+### run as just a DNS server in a docker swarm
 
-To run as just a DNS server in a docker swarm
 ``` shell
 mkdir -p /mnt/nas/docker/dnsmasq/config
+mkdir -p /mnt/nas/docker/dnsmasq/webproc_dns
 
-wget -O /mnt/nas/docker/dnsmasq/program.toml https://raw.githubusercontent.com/shepner/Docker-DNSmasq/master/program.toml
-wget -O /mnt/nas/docker/dnsmasq/resolv.conf https://raw.githubusercontent.com/shepner/Docker-DNSmasq/master/resolv.conf
+wget -O /mnt/nas/docker/dnsmasq/webproc_dns/program.toml https://raw.githubusercontent.com/shepner/Docker-DNSmasq/master/program.toml
+wget -O /mnt/nas/docker/dnsmasq/config/dnsmasq_dns.conf https://raw.githubusercontent.com/shepner/Docker-DNSmasq/master/dnsmasq.conf
 wget -O /mnt/nas/docker/dnsmasq/config/dnsmasq.conf https://raw.githubusercontent.com/shepner/Docker-DNSmasq/master/dnsmasq.conf
+wget -O /mnt/nas/docker/dnsmasq/resolv.conf https://raw.githubusercontent.com/shepner/Docker-DNSmasq/master/resolv.conf
 
 sudo docker service create \
   --name DNSmasq-dns \
+  --env WEBPROC_CONF=/mnt/webproc_dns/program.toml \
   --publish published=53,target=53,protocol=udp,mode=ingress \
   --publish published=53,target=53,protocol=tcp,mode=ingress \
   --publish published=8080,target=8080,protocol=tcp,mode=ingress \
@@ -50,17 +53,20 @@ sudo docker service create \
   shepner/dnsmasq:latest
 ```
 
+### run just as a DHCP server in a docker swarm
 
-To run just as a DHCP server in a docker swarm
 ``` shell
 mkdir -p /mnt/nas/docker/dnsmasq/config
+mkdir -p /mnt/nas/docker/dnsmasq/webproc_dhcp
 
-wget -O /mnt/nas/docker/dnsmasq/program.toml https://raw.githubusercontent.com/shepner/Docker-DNSmasq/master/program.toml
-wget -O /mnt/nas/docker/dnsmasq/resolv.conf https://raw.githubusercontent.com/shepner/Docker-DNSmasq/master/resolv.conf
+wget -O /mnt/nas/docker/dnsmasq/webproc_dhcp/program.toml https://raw.githubusercontent.com/shepner/Docker-DNSmasq/master/program.toml
+wget -O /mnt/nas/docker/dnsmasq/config/dnsmasq_dhcp.conf https://raw.githubusercontent.com/shepner/Docker-DNSmasq/master/dnsmasq.conf
 wget -O /mnt/nas/docker/dnsmasq/config/dnsmasq.conf https://raw.githubusercontent.com/shepner/Docker-DNSmasq/master/dnsmasq.conf
+wget -O /mnt/nas/docker/dnsmasq/resolv.conf https://raw.githubusercontent.com/shepner/Docker-DNSmasq/master/resolv.conf
 
 sudo docker service create \
   --name DNSmasq-dhcp \
+  --env WEBPROC_CONF=/mnt/webproc_dhcp/program.toml \
   --mount type=bind,src=/mnt/nas/docker/dnsmasq,dst=/mnt \
   --network host \
   --constraint node.role!=manager \
