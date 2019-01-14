@@ -18,8 +18,8 @@ RUN apk update \
       && apk del .build-deps
 
 # Configure webproc
-RUN mkdir -p /etc
-COPY program.toml /etc/program.toml
+#RUN mkdir -p /etc
+#COPY program.toml /etc/program.toml
 
 # Configure dnsmasq
 #RUN mkdir -p /etc/default/
