@@ -45,7 +45,7 @@ sudo docker service create \
   --name DNSmasq-dns \
   --publish published=53,target=53,protocol=udp,mode=ingress \
   --publish published=53,target=53,protocol=tcp,mode=ingress \
-  --publish published=8080,target=8080,protocol=tcp,mode=ingress \
+  --publish published=8053,target=8053,protocol=tcp,mode=ingress \
   --mount type=bind,src=/mnt/nas/docker/dnsmasq,dst=/mnt \
   --constraint node.role!=manager \
   --replicas=2 \
@@ -55,6 +55,8 @@ sudo docker service create \
 ### run just as a DHCP server in a docker swarm
 
 Might need '--privileged' to resolve the "⁣⁣dnsmasq-dhcp: ARP-cache injection failed: Operation not permitted" error
+
+use port 8067 to manage this
 
 ``` shell
 mkdir -p /mnt/nas/docker/dnsmasq/config
