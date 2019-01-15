@@ -10,28 +10,9 @@ NOTE: Before you do anything, you must disable any DNS server running on the loc
 
 NOTE:  In all cases, you will have to do a great deal of configuration here to have anything more then a basic DNS resolver
 
-### run as a combined DNS/DHCP server in a docker swarm
-
-``` shell
-mkdir -p /mnt/nas/docker/dnsmasq/config
-mkdir -p /mnt/nas/docker/dnsmasq/webproc
-
-wget -O /mnt/nas/docker/dnsmasq/webproc/program.toml https://raw.githubusercontent.com/shepner/Docker-DNSmasq/master/program.toml
-wget -O /mnt/nas/docker/dnsmasq/config/dnsmasq.conf https://raw.githubusercontent.com/shepner/Docker-DNSmasq/master/dnsmasq.conf
-wget -O /mnt/nas/docker/dnsmasq/resolv.conf https://raw.githubusercontent.com/shepner/Docker-DNSmasq/master/resolv.conf
-
-sudo docker service create \
-  --name DNSmasq \
-  --mount type=bind,src=/mnt/nas/docker/dnsmasq,dst=/mnt \
-  --network host \
-  --constraint node.role!=manager \
-  --replicas=1 \
-  shepner/dnsmasq:latest
-```
-NOTE: You will only want 1 instance with this to prevent dualing DHCP servers
-
-
 ### run as just a DNS server in a docker swarm
+
+Point your DNS clients to an assortment of the physical host addresses.  All in the swarm will work equally well.
 
 ``` shell
 mkdir -p /mnt/nas/docker/dnsmasq/config
@@ -54,9 +35,11 @@ sudo docker service create \
 
 ### run just as a DHCP server in a docker swarm
 
-Might need '--privileged' to resolve the "⁣⁣dnsmasq-dhcp: ARP-cache injection failed: Operation not permitted" error
+Use port 8067 to manage this
 
-use port 8067 to manage this
+Set your DHCP relay service to point at all physical nodes that this could possibly run on.
+
+This needs '--privileged' to resolve the "⁣⁣dnsmasq-dhcp: ARP-cache injection failed: Operation not permitted" error but that isnt available with docker swarm
 
 ``` shell
 mkdir -p /mnt/nas/docker/dnsmasq/config
@@ -76,12 +59,36 @@ sudo docker service create \
   --replicas=1 \
   shepner/dnsmasq:latest
 ```
+NOTE: You will only want 1 instance with this to prevent dualing DHCP servers
+
+Notes related to this:
 * this talks about using pipework to support DHCP
   * https://hub.docker.com/r/kmanna/dnsmasq/
   * https://github.com/jpetazzo/pipework
 * https://stackoverflow.com/questions/38816077/run-dnsmasq-as-dhcp-server-from-inside-a-docker-container
 * https://serverfault.com/questions/825497/running-dnsmasq-in-docker-container-on-debian-check-dhcp-ignores-dnsmasq
 
+### run as a combined DNS/DHCP server in a docker swarm
+
+You prolly dont want to do this but its here for documentation sake
+
+``` shell
+mkdir -p /mnt/nas/docker/dnsmasq/config
+
+wget -O /mnt/nas/docker/dnsmasq/program.toml https://raw.githubusercontent.com/shepner/Docker-DNSmasq/master/program.toml
+wget -O /mnt/nas/docker/dnsmasq/config/dnsmasq.conf https://raw.githubusercontent.com/shepner/Docker-DNSmasq/master/dnsmasq.conf
+wget -O /mnt/nas/docker/dnsmasq/resolv.conf https://raw.githubusercontent.com/shepner/Docker-DNSmasq/master/resolv.conf
+
+sudo docker service create \
+  --name DNSmasq \
+  --mount type=bind,src=/mnt/nas/docker/dnsmasq,dst=/mnt \
+  --env WEBPROC_CONF=/mnt/program.toml \
+  --network host \
+  --constraint node.role!=manager \
+  --replicas=1 \
+  shepner/dnsmasq:latest
+```
+NOTE: You will only want 1 instance with this to prevent dualing DHCP servers
 
 ## DNSmasq documentation
 
