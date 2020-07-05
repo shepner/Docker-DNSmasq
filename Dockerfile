@@ -4,7 +4,7 @@ FROM alpine:latest
 RUN apk update \
       && apk add --no-cache dnsmasq \
       && apk add --no-cache --virtual .build-deps curl \
-      && cd /usr/local/bin; curl https://i.jpillora.com/webproc | bash \
+      && cd /usr/local/bin; curl https://i.jpillora.com/webproc | sh \
       && apk del .build-deps
 
 # Configure dnsmasq
