@@ -3,8 +3,9 @@ FROM alpine:latest
 # Fetch dnsmasq and webproc binary
 RUN apk update \
       && apk add --no-cache dnsmasq \
+      && apk add --no-cache bash \
       && apk add --no-cache --virtual .build-deps curl \
-      && cd /usr/local/bin; curl https://i.jpillora.com/webproc | sh \
+      && cd /usr/local/bin; curl https://i.jpillora.com/webproc | bash \
       && apk del .build-deps
 
 # Configure dnsmasq
