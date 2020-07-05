@@ -27,5 +27,4 @@ EXPOSE 8080/tcp
 
 #CMD ["/bin/sh"]
 
-ENTRYPOINT ["/bin/sh", "-c"]
-CMD ["'", "webproc", "--configuration-file", "/mnt/config/dnsmasq.conf", "--port", "8053", "--", "dnsmasq", "--no-daemon", "'"]
+CMD ["webproc", "--configuration-file", "/mnt/config/dnsmasq.conf", "--port", "8053", "--", "dnsmasq", "--no-daemon"]
