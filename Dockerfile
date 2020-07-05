@@ -18,6 +18,11 @@ EXPOSE 8080/tcp
 
 # Run
 #ENTRYPOINT ["webproc","/mnt/program.toml"]
-ENV WEBPROC_CONF=/mnt/webproc/program.toml
+
+#ENV WEBPROC_CONF=/mnt/webproc/program.toml
 #ENTRYPOINT webproc $WEBPROC_CONF
-CMD ["/bin/sh"]
+
+ENV DNSMASQ_CONF=/mnt/config/dnsmasq.conf
+ENTRYPOINT webproc --configuration-file $DNSMASQ_CONF --port 8053 -- dnsmasq --no-daemon
+
+#CMD ["/bin/sh"]
