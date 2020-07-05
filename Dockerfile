@@ -16,7 +16,6 @@ EXPOSE 53/tcp
 EXPOSE 8080/tcp
 
 # Run
-
 #ENTRYPOINT ["webproc","/mnt/program.toml"]
 # For some reason webproc wont start with the program.toml file anymore so must do this the hard way
 CMD ["webproc", "--port", "8053", "-c", "/mnt/hosts", "-c", "/mnt/resolv.conf", "-c", "/mnt/dnsmasq.leases", "-c", "/mnt/config/dnsmasq_combined.conf",  "--", "dnsmasq", "--no-daemon", "--conf-file=/mnt/config/dnsmasq_combined.conf"]
