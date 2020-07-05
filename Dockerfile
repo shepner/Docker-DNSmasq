@@ -1,10 +1,5 @@
 FROM alpine:latest
 
-LABEL \
-  org.asyla.release-date="2019-01-13" \
-  org.asyla.maintainer="shepner@asyla.org" \
-  org.asyla.description="DNSmasq:  DNS Server"
-
 # Webproc release settings
 ENV WEBPROC_VERSION=0.2.2
 ENV WEBPROC_URL=https://github.com/jpillora/webproc/releases/download/$WEBPROC_VERSION/webproc_linux_amd64.gz
