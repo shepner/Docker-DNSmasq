@@ -19,4 +19,5 @@ EXPOSE 8080/tcp
 # Run
 #ENTRYPOINT ["webproc","/mnt/program.toml"]
 ENV WEBPROC_CONF=/mnt/webproc/program.toml
-ENTRYPOINT webproc $WEBPROC_CONF
+#ENTRYPOINT webproc $WEBPROC_CONF
+CMD ["/bin/sh"]
